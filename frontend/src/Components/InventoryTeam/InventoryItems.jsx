@@ -26,6 +26,16 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const year = date.getUTCFullYear();
+    return `${day}-${month}-${year}`;
+}
+
+
+
 function YourComponent() {
     const [category, setCategory] = useState('');
     const [damaged, setDamaged] = useState('');
@@ -42,19 +52,22 @@ function YourComponent() {
     const handleUpdatePickedBy = async (newValue, itemId) => {
         try {
             await axios.put(`http://localhost:5000/inventory/${itemId}`, { pickedby: newValue });
-            // If the request is successful, update the state with the new value for the specific item
             setPickedBy(newValue);
         } catch (error) {
-            // Handle errors if any
             console.error('Error updating picked by:', error);
-            // You can display an error message to the user or handle it as needed
         }
     };
 
-
+    const handleUpdatestatus = async (newValue1, itemId) => {
+        try {
+            await axios.put(`http://localhost:5000/inventory/status/${itemId}`, { status: newValue1 });
+            setStatus(newValue1);
+        } catch (error) {
+            console.error('Error updating picked by:', error);
+        }
+    };
 
     useEffect(() => {
-        
         axios.get('http://localhost:5000/deliveryteam')
             .then(res => {
                 setDeliveryusers(res.data)
@@ -63,13 +76,13 @@ function YourComponent() {
         axios.get('http://localhost:5000/inventory/all')
             .then(response => {
 
-                setInventoryItems(response.data); // Assuming response.data is an array of inventory items
-                setFilteredItems(response.data); // Initialize filtered items with all inventory items
+                setInventoryItems(response.data); 
+                setFilteredItems(response.data); 
             })
             .catch(error => {
                 console.error('Error fetching inventory items:', error);
             });
-    });
+    },[]);
 
     useEffect(() => {
         filterItems();
@@ -87,9 +100,10 @@ function YourComponent() {
             if (perishable !== '' && item.perishable.toString() !== perishable) {
                 condition = false;
             }
-            if (expiryDate && item.expiryDate !== expiryDate) {
+            if (expiryDate && formatDate(item.expiryDate) !== formatDate(expiryDate)) {
                 condition = false;
             }
+            
             return condition;
         });
         setFilteredItems(filtered);
@@ -289,7 +303,7 @@ function YourComponent() {
                                 </div>
                                 <div>
                                     <label htmlFor="expiryDateFilter" className="block text-sm font-medium text-gray-700">Filter by Expiry Date:</label>
-                                    <input type="date" id="expiryDateFilter" name="expiryDateFilter" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" />
+                                    <input type="date" id="expiryDateFilter" name="expiryDateFilter" value={expiryDate} onChange={(e) => setExpiryDate(formatDate(e.target.value))} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md px-3 py-2" />
                                 </div>
                             </div>
                         </div>
@@ -317,12 +331,12 @@ function YourComponent() {
                                                 <td className="px-6 py-4 whitespace-nowrap">{item.category}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">{item.damaged ? 'Yes' : 'No'}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">{item.perishable ? 'Yes' : 'No'}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">{item.expiryDate}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{formatDate(item.expiryDate)}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">{item.quantity}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <select
                                                         value={item.status}
-                                                        onChange={(e) => { setStatus(e.target.value) }}
+                                                        onChange={(e) => handleUpdatestatus(e.target.value, item._id)}
                                                         className="w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400"
                                                     >
                                                         <option value="Pending">Select</option>

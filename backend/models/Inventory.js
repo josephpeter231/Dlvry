@@ -7,7 +7,7 @@ const inventorySchema = new mongoose.Schema({
   perishable: Boolean,
   expiryDate: Date,
   quantity: Number,
-  status: { type: String, default: 'Not Picked' },
+  status: { type: String, default: '' },
   pickedby: { type: String, default: '' } 
 });
 

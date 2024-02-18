@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const User = require('./models/user');
 const cors = require('cors')
 const Inventory = require('./models/Inventory');
-
+const jwt = require('jsonwebtoken');
 
 const app = express();
 
@@ -31,6 +31,32 @@ app.post('/api/register', async (req, res) => {
       res.status(500).send('Error registering user');
     }
   });
+
+  // Login route
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Check password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+    
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
 
 //Delivery Teams user names
 app.get('/deliveryteam', async (req, res) => {
@@ -70,18 +96,34 @@ app.put('/inventory/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { pickedby } = req.body;
-
-    // Find the inventory item by ID
+    
     const inventoryItem = await Inventory.findById(id);
 
     if (!inventoryItem) {
       return res.status(404).json({ error: 'Inventory item not found' });
     }
-
-    // Update the picked by field
     inventoryItem.pickedby = pickedby;
+    await inventoryItem.save();
 
-    // Save the updated item
+    res.status(200).json({ message: 'Inventory item updated successfully', inventoryItem });
+  } catch (error) {
+    console.error('Error updating inventory item:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+  
+
+app.put('/inventory/status/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status} = req.body;
+    console.log(req.body);
+    const inventoryItem = await Inventory.findById(id);
+
+    if (!inventoryItem) {
+      return res.status(404).json({ error: 'Inventory item not found' });
+    }
+    inventoryItem.status = status;
     await inventoryItem.save();
 
     res.status(200).json({ message: 'Inventory item updated successfully', inventoryItem });

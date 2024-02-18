@@ -11,9 +11,9 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Add Inventory', href: '#', current: false },
-  { name: 'Inventory Items', href: '#', current: false },
+  { name: 'Dashboard', href: '#', current: false },
+  { name: 'Add Inventory', href: '/inventorydashboard', current: true },
+  { name: 'Inventory Items', href: '/inventoryitems', current: false },
   { name: 'Upload Files', href: '#', current: false },
   { name: 'Reports', href: '#', current: false },
 ]

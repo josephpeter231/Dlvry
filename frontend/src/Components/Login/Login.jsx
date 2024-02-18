@@ -1,20 +1,27 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('inventoryteam');
   const ClickRegister = () =>{
-    window.location.href = '/register';
+    window.location.href = '/';
   }
 
-  const handleLogin = (e) => {
+  const handleLogin = async(e) => {
     e.preventDefault();
-    // Perform login authentication based on the selected role (inventory/delivery)
-    // You can add your authentication logic here
-    console.log('Logging in as:', role);
-    console.log('Email:', email);
-    console.log('Password:', password);
+    try {
+      const response = await axios.post('http://localhost:5000/login', { email, password });
+      localStorage.setItem('token', response.data.token);
+      if(response.status==200){
+        window.location.href = '/inventorydashboard'
+      }
+     
+    } catch (error) {
+      console.error('Error:', error.response.data.message);
+     
+    }
   };
 
   return (
@@ -39,11 +46,12 @@ const Login = () => {
                 Select Role
               </label>
               <select
+              style={{ paddingLeft: '10px' }}
                 id="role"
                 name="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="ml-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
                 <option value="inventoryteam">Inventory Team</option>
                 <option value="deliveryteam">Delivery Team</option>
@@ -57,6 +65,7 @@ const Login = () => {
               </label>
               <div className="mt-2">
                 <input
+                style={{ paddingLeft: '10px' }}
                   id="email"
                   name="email"
                   type="email"
@@ -83,6 +92,7 @@ const Login = () => {
               </div>
               <div className="mt-2">
                 <input
+                style={{ paddingLeft: '10px' }}
                   id="password"
                   name="password"
                   type="password"

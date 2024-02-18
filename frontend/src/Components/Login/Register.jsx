@@ -9,13 +9,13 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('inventoryteam');
-  const [name,setName] = useState('')
-  
+  const [name, setName] = useState('')
+
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-       await axios.post('http://localhost:5000/api/register', {
+      await axios.post('http://localhost:5000/api/register', {
         name,
         email,
         password,
@@ -26,10 +26,13 @@ const Login = () => {
         text: `Redirecting to ${role} Dashboard`,
         icon: "success"
       });
-      if(role=="deliveryteam"){
+      if (role == "deliveryteam") {
         window.location.href = '/deliverydashboard';
       }
-  
+      else{
+        window.location.href = '/inventorydashboard'
+      }
+
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -64,11 +67,12 @@ const Login = () => {
                 Select Role
               </label>
               <select
+                style={{ paddingLeft: '10px' }}
                 id="role"
                 name="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="ml-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
                 <option value="inventoryteam">Inventory Team</option>
                 <option value="deliveryteam">Delivery Team</option>
@@ -83,10 +87,11 @@ const Login = () => {
               <div className="mt-2">
                 <input
                   id="name"
-                  name="name" 
-                  type="text" 
+                  name="name"
+                  type="text"
                   autoComplete="name"
                   value={name}
+                  style={{ paddingLeft: '10px' }}
                   onChange={(e) => setName(e.target.value)}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -101,6 +106,7 @@ const Login = () => {
               </label>
               <div className="mt-2">
                 <input
+                  style={{ paddingLeft: '10px' }}
                   id="email"
                   name="email"
                   type="email"
@@ -127,6 +133,7 @@ const Login = () => {
               </div>
               <div className="mt-2">
                 <input
+                style={{ paddingLeft: '10px' }}
                   id="password"
                   name="password"
                   type="password"
