@@ -14,7 +14,11 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:5000/login', { email, password });
       localStorage.setItem('token', response.data.token);
-      if(response.status==200){
+      console.log(role)
+      if(response.status==200 && role=="deliveryteam"){
+        window.location.href = '/deliverydashboard'
+      }
+      else{
         window.location.href = '/inventorydashboard'
       }
      

@@ -10,20 +10,20 @@ const jwt = require('jsonwebtoken');
 const app = express();
 
 // Middleware
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 app.use(cors())
 // MongoDB connection
-mongoose.connect('mongodb+srv://josephpeterjece2021:AJ9Hg6xTtQBUCoGr@cluster1.xaacunv.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect("mongodb+srv://josephpeterjece2021:AJ9Hg6xTtQBUCoGr@cluster1.xaacunv.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 // Routes for register
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', async (req, res) => { 
     try {
       const { name, email, password,role} = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log(req.body);
+    
       const user = new User({ name, email, password: hashedPassword,role });
       await user.save();
       res.status(201).send('User registered successfully');
@@ -34,8 +34,8 @@ app.post('/api/register', async (req, res) => {
 
   // Login route
 app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
+  const { email, password} = req.body;
+ 
   try {
     // Check if user exists
     const user = await User.findOne({ email });
@@ -64,7 +64,7 @@ app.get('/deliveryteam', async (req, res) => {
     const deliveryTeamUsers = await User.find({ role: 'deliveryteam' });
     const deliveryTeamUserNames = deliveryTeamUsers.map(user => user.name);
     res.json(deliveryTeamUserNames);
-    console.log(deliveryTeamUserNames);
+  
   } catch (error) {
     console.error('Error fetching delivery team users:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -133,6 +133,26 @@ app.put('/inventory/status/:id', async (req, res) => {
   }
 });
   
+//update delivery status
+app.put('/delivery/status/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {deliverystatus} = req.body;
+    console.log(req.body);
+    const inventoryItem = await Inventory.findById(id);
+
+    if (!inventoryItem) {
+      return res.status(404).json({ error: 'Inventory item not found' });
+    }
+    inventoryItem.deliverystatus = deliverystatus;
+    await inventoryItem.save();
+
+    res.status(200).json({ message: 'Inventory item updated successfully', inventoryItem });
+  } catch (error) {
+    console.error('Error updating inventory item:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
   
 // Server
 const PORT = process.env.PORT || 5000;

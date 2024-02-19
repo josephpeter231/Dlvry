@@ -58,15 +58,14 @@ function YourComponent() {
         }
     };
 
-    const handleUpdatestatus = async (newValue1, itemId) => {
+    const handleUpdatedeliverystatus = async (newValue2, itemId) => {
         try {
-            await axios.put(`http://localhost:5000/inventory/status/${itemId}`, { status: newValue1 });
-            setStatus(newValue1);
+            await axios.put(`http://localhost:5000/delivery/status/${itemId}`, { deliverystatus: newValue2 });
+            setStatus(newValue2);
         } catch (error) {
             console.error('Error updating picked by:', error);
         }
     };
-    
 
     useEffect(() => {
         axios.get('http://localhost:5000/deliveryteam')
@@ -77,13 +76,13 @@ function YourComponent() {
         axios.get('http://localhost:5000/inventory/all')
             .then(response => {
 
-                setInventoryItems(response.data); 
-                setFilteredItems(response.data); 
+                setInventoryItems(response.data);
+                setFilteredItems(response.data);
             })
             .catch(error => {
                 console.error('Error fetching inventory items:', error);
             });
-    },[]);
+    }, []);
 
     useEffect(() => {
         filterItems();
@@ -104,7 +103,7 @@ function YourComponent() {
             if (expiryDate && formatDate(item.expiryDate) !== formatDate(expiryDate)) {
                 condition = false;
             }
-            
+
             return condition;
         });
         setFilteredItems(filtered);
@@ -335,31 +334,21 @@ function YourComponent() {
                                                 <td className="px-6 py-4 whitespace-nowrap">{item.perishable ? 'Yes' : 'No'}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">{formatDate(item.expiryDate)}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">{item.quantity}</td>
-                                                
+                                                <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{item.pickedby}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <select
-                                                        value={item.status}
-                                                        onChange={(e) => handleUpdatestatus(e.target.value, item._id)}
+                                                        value={item.deliverystatus}
+                                                        onChange={(e) => handleUpdatedeliverystatus(e.target.value, item._id)}
                                                         className="w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400"
                                                     >
-                                                        <option value="Pending">Select</option>
-                                                        <option value="Picked">Picked</option>
-                                                        <option value="Not Picked">Not Picked</option>
+                                                        <option value={item.deliverystatus}>{item.deliverystatus}</option>
+                                                        <option value="DoorLock">Door Lock</option>
+                                                        <option value="Damaged">Damaged</option>
+                                                        <option value="Return">Return</option>
+                                                        <option value="Not Delivered">Not Delivered</option>
                                                     </select>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <select
-                                                        value={item.pickedby}
-                                                        onChange={(e) => handleUpdatePickedBy(e.target.value, item._id)}
-                                                        className="w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-400"
-                                                    >
-                                                        <option value="">Select</option>
-                                                        {deliveryusers.map(user => (
-                                                            <option key={user._id} value={user}>{user}</option>
-                                                        ))}
-                                                    </select>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">{item.deliverystatus}</td>
 
                                             </tr>
                                         ))}

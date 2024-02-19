@@ -4,6 +4,7 @@ import {Routes,Route} from 'react-router-dom'
 import Home from './Components/Home/Home'
 import InventoryItems from './Components/InventoryTeam/InventoryItems'
 import InventoryDashboard from './Components/InventoryTeam/InventoryDashboard'
+import DeliveryDashboard from './Components/DeliveryTeam/DeliveryAgent'
 const App = () => {
   return (
     <>
@@ -11,7 +12,7 @@ const App = () => {
       <Route path='/' element={<Home/>} />
       <Route path='/login' element={<Login/>} />
       <Route path='/register' element={<Register/>} />
-     
+      <Route path='/deliverydashboard' element={<DeliveryDashboard/>} />
       <Route path='/inventorydashboard' element={<InventoryDashboard/>} />
       <Route path='/inventoryitems' element={<InventoryItems/>} />
     </Routes>

@@ -11,7 +11,7 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-  { name: 'Dashboard', href: '#', current: false },
+  { name: 'Dashboard', href: '/inventorydashboard', current: false },
   { name: 'Add Inventory', href: '/inventorydashboard', current: true },
   { name: 'Inventory Items', href: '/inventoryitems', current: false },
   { name: 'Upload Files', href: '#', current: false },
@@ -277,43 +277,7 @@ const Inventory= () => {
               </div>
               <button onClick={handleAddInventory} className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add Inventory</button>
             </div>
-            
-            <div>
-                    <h2 className="text-lg font-semibold mb-2">Inventory Items</h2>
-                    {inventoryItems.length === 0 ? (
-                      <p>No inventory items available</p>
-                    ) : (
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Damaged</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Perishable</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expiry Date</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Picked By</th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {inventoryItems.map(item => (
-                            <tr key={item._id}>
-                              <td className="px-6 py-4 whitespace-nowrap">{item.productName}</td>
-                              <td className="px-6 py-4 whitespace-nowrap">{item.category}</td>
-                              <td className="px-6 py-4 whitespace-nowrap">{item.damaged ? 'Yes' : 'No'}</td>
-                              <td className="px-6 py-4 whitespace-nowrap">{item.perishable ? 'Yes' : 'No'}</td>
-                              <td className="px-6 py-4 whitespace-nowrap">{item.expiryDate}</td>
-                              <td className="px-6 py-4 whitespace-nowrap">{item.quantity}</td>
-                              <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
-                              <td className="px-6 py-4 whitespace-nowrap">{item.deliveryAgent}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    )}
-                  </div>
-                </div>
+          </div>
       
         </main>
 

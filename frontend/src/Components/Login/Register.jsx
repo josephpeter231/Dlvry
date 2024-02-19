@@ -26,12 +26,13 @@ const Login = () => {
         text: `Redirecting to ${role} Dashboard`,
         icon: "success"
       });
-      if (role == "deliveryteam") {
-        window.location.href = '/deliverydashboard';
-      }
-      else{
-        window.location.href = '/inventorydashboard'
-      }
+      setTimeout(() => {
+        if (role == "deliveryteam") {
+          window.location.href = '/deliverydashboard';
+        } else {
+          window.location.href = '/inventorydashboard'
+        }
+      }, 3000);
 
     } catch (error) {
       Swal.fire({
@@ -43,6 +44,7 @@ const Login = () => {
       console.error('Error registering user:', error.response.data);
     }
   };
+
 
 
   return (
@@ -133,7 +135,7 @@ const Login = () => {
               </div>
               <div className="mt-2">
                 <input
-                style={{ paddingLeft: '10px' }}
+                  style={{ paddingLeft: '10px' }}
                   id="password"
                   name="password"
                   type="password"
