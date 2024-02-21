@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('inventoryteam');
+  const navigate= useNavigate();
   const ClickRegister = () =>{
-    window.location.href = '/';
+    navigate('/');
   }
 
   const handleLogin = async(e) => {
@@ -16,10 +18,10 @@ const Login = () => {
       localStorage.setItem('token', response.data.token);
       console.log(role)
       if(response.status==200 && role=="deliveryteam"){
-        window.location.href = '/deliverydashboard'
+        navigate('/deliverydashboard')
       }
       else{
-        window.location.href = '/inventorydashboard'
+        navigate('/inventorydashboard')
       }
      
     } catch (error) {

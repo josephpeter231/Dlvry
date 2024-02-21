@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import  { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -11,6 +11,7 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
+  
   { name: 'Dashboard', href: '/inventorydashboard', current: false },
   { name: 'Add Inventory', href: '/inventorydashboard', current: true },
   { name: 'Inventory Items', href: '/inventoryitems', current: false },
@@ -28,6 +29,7 @@ function classNames(...classes) {
 }
 
 const Inventory= () => {
+  const navigate = useNavigate();
   const [productName, setProductName] = useState('');
   const [category, setCategory] = useState('');
   const [damaged, setDamaged] = useState(false);
@@ -35,6 +37,7 @@ const Inventory= () => {
   const [expiryDate, setExpiryDate] = useState('');
   const [quantity, setQuantity] = useState('');
   const [inventoryItems, setInventoryItems] = useState([]);
+  
 
   useEffect(() => {
     // Fetch inventory items from the backend when the component mounts
@@ -148,15 +151,15 @@ const Inventory= () => {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <button
+                                  onClick={() => navigate(item.href)}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
                                     {item.name}
-                                  </a>
+                                  </button>
                                 )}
                               </Menu.Item>
                             ))}
