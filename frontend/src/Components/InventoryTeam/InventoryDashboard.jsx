@@ -101,9 +101,9 @@ const Inventory= () => {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <a
+                          <button
                             key={item.name}
-                            href={item.href}
+                            onClick={() => navigate(item.href)}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-900 text-white'
@@ -113,7 +113,7 @@ const Inventory= () => {
                             aria-current={item.current ? 'page' : undefined}
                           >
                             {item.name}
-                          </a>
+                          </button>
                         ))}
                       </div>
                     </div>
