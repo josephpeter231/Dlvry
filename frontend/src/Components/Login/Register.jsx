@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
+import { useNavigate } from 'react-router-dom';
 // import DeliveryDashboard from '../DeliveryTeam/Delivery';
 
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('inventoryteam');
@@ -28,9 +29,9 @@ const Login = () => {
       });
       setTimeout(() => {
         if (role == "deliveryteam") {
-          window.location.href = '/deliverydashboard';
+          navigate('/deliverydashboard');
         } else {
-          window.location.href = '/inventorydashboard'
+          navigate('/inventorydashboard');
         }
       }, 3000);
 
@@ -162,9 +163,9 @@ const Login = () => {
           {/* Register link */}
           <p className="mt-10 text-center text-sm text-gray-500">
             Already have account?{' '}
-            <a href='/login' className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <button onClick={navigate('/login')} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               SignIn
-            </a>
+            </button>
           </p>
         </div>
       </div>
