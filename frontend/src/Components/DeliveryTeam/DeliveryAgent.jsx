@@ -68,12 +68,12 @@ function YourComponent() {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:5000/deliveryteam')
+        axios.get('https://dlvry-1.onrender.com/deliveryteam')
             .then(res => {
                 setDeliveryusers(res.data)
                 console.log(res.data)
             })
-        axios.get('http://localhost:5000/inventory/all')
+        axios.get('https://dlvry-1.onrender.com/inventory/all')
             .then(response => {
 
                 setInventoryItems(response.data);
