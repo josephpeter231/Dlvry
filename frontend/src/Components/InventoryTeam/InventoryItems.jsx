@@ -132,9 +132,9 @@ function YourComponent() {
                                     <div className="hidden md:block">
                                         <div className="ml-10 flex items-baseline space-x-4">
                                             {navigation.map((item) => (
-                                                <a
+                                                <button
                                                     key={item.name}
-                                                    href={item.href}
+                                                    onClick={() => navigate(item.href)}
                                                     className={classNames(
                                                         item.current
                                                             ? 'bg-gray-900 text-white'
@@ -144,7 +144,7 @@ function YourComponent() {
                                                     aria-current={item.current ? 'page' : undefined}
                                                 >
                                                     {item.name}
-                                                </a>
+                                                </button>
                                             ))}
                                         </div>
                                     </div>
@@ -220,7 +220,7 @@ function YourComponent() {
                                     <Disclosure.Button
                                         key={item.name}
                                         as="a"
-                                        href={item.href}
+                                        onClick={() => navigate(item.href)}
                                         className={classNames(
                                             item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                             'block rounded-md px-3 py-2 text-base font-medium'
@@ -254,7 +254,7 @@ function YourComponent() {
                                         <Disclosure.Button
                                             key={item.name}
                                             as="a"
-                                            href={item.href}
+                                            onClick={() => navigate(item.href)}
                                             className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                                         >
                                             {item.name}
