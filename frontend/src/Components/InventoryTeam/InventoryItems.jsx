@@ -53,7 +53,7 @@ function YourComponent() {
     // Function to handle updating the picked by value for a specific item
     const handleUpdatePickedBy = async (newValue, itemId) => {
         try {
-            await axios.put(`http://localhost:5000/inventory/${itemId}`, { pickedby: newValue });
+            await axios.put(`https://dlvry-1.onrender.com/inventory/${itemId}`, { pickedby: newValue });
             setPickedBy(newValue);
         } catch (error) {
             console.error('Error updating picked by:', error);
@@ -62,7 +62,7 @@ function YourComponent() {
 
     const handleUpdatestatus = async (newValue1, itemId) => {
         try {
-            await axios.put(`http://localhost:5000/inventory/status/${itemId}`, { status: newValue1 });
+            await axios.put(`https://dlvry-1.onrender.com/inventory/status/${itemId}`, { status: newValue1 });
             setStatus(newValue1);
         } catch (error) {
             console.error('Error updating picked by:', error);
@@ -71,12 +71,12 @@ function YourComponent() {
     
 
     useEffect(() => {
-        axios.get('http://localhost:5000/deliveryteam')
+        axios.get('https://dlvry-1.onrender.com/deliveryteam')
             .then(res => {
                 setDeliveryusers(res.data)
                 console.log(res.data)
             })
-        axios.get('http://localhost:5000/inventory/all')
+        axios.get('https://dlvry-1.onrender.com/inventory/all')
             .then(response => {
 
                 setInventoryItems(response.data); 

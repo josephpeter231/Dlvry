@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +13,7 @@ const Login = () => {
   const handleLogin = async(e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/login', { email, password });
+      const response = await axios.post('https://dlvry-1.onrender.com/login', { email, password });
       localStorage.setItem('token', response.data.token);
       console.log(role)
       if(response.status==200 && role=="deliveryteam"){

@@ -41,7 +41,7 @@ const Inventory= () => {
 
   useEffect(() => {
     // Fetch inventory items from the backend when the component mounts
-    axios.get('http://localhost:5000/inventory/all')
+    axios.get('https://dlvry-1.onrender.com/inventory/all')
       .then(response => {
         setInventoryItems(response.data); // Assuming response.data is an array of inventory items
       })
@@ -60,7 +60,7 @@ const Inventory= () => {
         expiryDate,
         quantity
       };
-      await axios.post('http://localhost:5000/inventory/add', newInventoryItem);
+      await axios.post('https://dlvry-1.onrender.com/inventory/add', newInventoryItem);
       setInventoryItems([...inventoryItems, newInventoryItem]);
       // Clear input fields after adding
       setProductName('');
